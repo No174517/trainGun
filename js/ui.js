@@ -185,6 +185,16 @@ export function showResult(result, isNewRecord, onRetry, onMenu) {
                     <div class="result-stat-label">命中率</div>
                     <div class="result-stat-value">${result.accuracy}%</div>
                 </div>
+             <div class="trace-container">
+                <h3>
+                    Aim Trace
+                </h3>
+             
+                <canvas id="aimTraceCanvas"
+                   width="800"
+                   height="450">
+                </canvas>
+             </div>
                 <div class="result-stat">
                     <div class="result-stat-label">命中次数</div>
                     <div class="result-stat-value">${result.hits}</div>
@@ -215,6 +225,10 @@ export function showResult(result, isNewRecord, onRetry, onMenu) {
             </div>
         </div>
     `;
+
+   drawAimTrace(
+    result.traceHistory
+   );
 
     // 绘制热力图 (原有) & 象限分析 (新增)
     requestAnimationFrame(() => {
@@ -400,3 +414,59 @@ export const MODE_NAMES = {
     sixtarget: '六目标模式',
     humanoid: '小人模式'
 };
+
+function drawAimTrace(points){
+
+    const canvas =
+        document.getElementById(
+            "aimTraceCanvas"
+        );
+
+
+    if(!canvas || !points || points.length < 2)
+        return;
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    ctx.strokeStyle="#00ff88";
+    ctx.lineWidth=2;
+
+
+    ctx.beginPath();
+
+
+    points.forEach((p,index)=>{
+
+        if(index===0){
+
+            ctx.moveTo(
+                p.x,
+                p.y
+            );
+
+        }else{
+
+            ctx.lineTo(
+                p.x,
+                p.y
+            );
+
+        }
+
+    });
+
+
+    ctx.stroke();
+
+}
