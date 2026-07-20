@@ -10,6 +10,7 @@ import { Weapon, WEAPON_PRESETS } from './weapon.js';
 import { audioManager } from './audio.js';
 import { keybindManager, ACTIONS } from './keybinds.js';
 import { calculateFromGame, getDefaultConfig } from './sensitivity.js';
+import { aimTrace } from './trace.js';
 
 /* ==================== 粒子系统 ==================== */
 class Particle {
@@ -663,6 +664,8 @@ export class GameEngine {
         this.targets = [];
         this.particles.particles = [];
         this.floatingTexts = [];
+       
+        aimTrace.reset();
 
         this.duration = options.duration || (modeHandler.getDuration ? modeHandler.getDuration(difficulty) : 60);
 
@@ -712,12 +715,24 @@ export class GameEngine {
         if (!this.isLocked && this.state === 'running') this.pause();
     }
 
-    _onMouseMove(e) {
-        if (!this.isLocked || this.state !== 'running') return;
-        const dx = e.movementX * this.webSensitivity;
-        const dy = e.movementY * this.webSensitivity;
-        this.crosshair.move(dx, dy, this.canvas.width, this.canvas.height);
-    }
+   _onMouseMove(e) {
+    if (!this.isLocked || this.state !== 'running') return;
+    const dx = e.movementX * this.webSensitivity;
+    const dy = e.movementY * this.webSensitivity;
+    this.crosshair.move(
+        dx,
+        dy,
+        this.canvas.width,
+        this.canvas.height
+    );
+    // 记录当前准星位置
+    aimTrace.add(
+        this.crosshair.x,
+        this.crosshair.y
+    );
+   }
+
+   
 
     _onMouseDown(e) {
         if (this.state !== 'running') return;
