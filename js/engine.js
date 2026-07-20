@@ -1090,7 +1090,7 @@ export class GameEngine {
             misses: this.misses,
             maxCombo: this.maxCombo,
             headshots: this.headshots,
-            shotHistory: this.shotHistory
+            shotHistory: this.shotHistory,
             traceHistory: aimTrace.getData()
         };
 
