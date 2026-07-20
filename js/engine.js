@@ -1091,8 +1091,10 @@ export class GameEngine {
             maxCombo: this.maxCombo,
             headshots: this.headshots,
             shotHistory: this.shotHistory
+            traceHistory: aimTrace.getData()
         };
 
+        console.log(result.traceHistory);
         saveTrainingResult(result);
         const bestScores = getBestScores();
         const previousBest = bestScores[this.mode];
