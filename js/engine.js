@@ -1241,15 +1241,11 @@ generateAimTraceImage() {
 
     // 保存到本地
 
-    const a =
-        document.createElement('a');
+   // 保存图片数据
 
-    a.href=img;
-
-    a.download =
-        `aim_trace_${Date.now()}.png`;
-
-    a.click();
+this.lastTraceImage =
+canvas.toDataURL("image/png");
+);
 
 }
    
