@@ -227,7 +227,8 @@ export function showResult(result, isNewRecord, onRetry, onMenu) {
     `;
 
    drawAimTrace(
-    result.traceHistory
+    result.traceHistory,
+    result.traceSize
    );
 
     // 绘制热力图 (原有) & 象限分析 (新增)
@@ -415,11 +416,17 @@ export const MODE_NAMES = {
     humanoid: '小人模式'
 };
 
-function drawAimTrace(points){
+function drawAimTrace(points, traceSize){
 
     const canvas =
         document.getElementById(
             "aimTraceCanvas"
+    
+    const scaleX =
+    canvas.width / traceSize.width;
+
+    const scaleY =
+    canvas.height / traceSize.height;
         );
 
 
@@ -451,15 +458,15 @@ function drawAimTrace(points){
         if(index===0){
 
             ctx.moveTo(
-                p.x,
-                p.y
-            );
+                p.x * scaleX,
+                p.y * scaleY
+               );
 
         }else{
 
             ctx.lineTo(
-                p.x,
-                p.y
+                p.x * scaleX,
+                p.y * scaleY
             );
 
         }
