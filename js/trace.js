@@ -11,11 +11,7 @@ export class AimTrace {
         this.points=[];
     }
 
-    setCanvasSize(width,height){
-        this.width = width;
-        this.height = height;
-    }
-
+    
     add(x,y){
         this.points.push({
             x,
