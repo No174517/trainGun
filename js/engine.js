@@ -658,8 +658,6 @@ export class GameEngine {
         this.elapsed = 0;
         this.shake = 0; // 屏幕震动强度
         this.shotHistory = [];
-        this.traceHistory = [];
-        this.traceHistory = [];
         this.trackingFrames = 0;
         this.trackingHitFrames = 0;
         this.targets = [];
@@ -719,12 +717,6 @@ export class GameEngine {
         const dx = e.movementX * this.webSensitivity;
         const dy = e.movementY * this.webSensitivity;
         this.crosshair.move(dx, dy, this.canvas.width, this.canvas.height);
-       this.traceHistory.push({
-    x:this.crosshair.x / this.canvas.width,
-    y:this.crosshair.y / this.canvas.height,
-    t:performance.now()
-
-});
     }
 
     _onMouseDown(e) {
@@ -1087,9 +1079,7 @@ export class GameEngine {
         };
 
         saveTrainingResult(result);
-        this.generateAimTraceImage();
-       showResult(result) 
-       const bestScores = getBestScores();
+        const bestScores = getBestScores();
         const previousBest = bestScores[this.mode];
         const isNewRecord = !previousBest || this.score >= previousBest.score;
 
@@ -1103,156 +1093,6 @@ export class GameEngine {
         }
     }
 
-generateAimTraceImage() {
-
-    if (!this.traceHistory || this.traceHistory.length < 2) {
-        return;
-    }
-    
-    const points = this.traceHistory;
-
-    const canvas = document.createElement('canvas');
-
-    const size = 800;
-
-    canvas.width = size;
-    canvas.height = size;
-
-
-    const ctx = canvas.getContext('2d');
-
-
-    // 背景
-
-    ctx.fillStyle = '#080812';
-    ctx.fillRect(
-        0,
-        0,
-        size,
-        size
-    );
-
-
-    // 网格
-
-    ctx.strokeStyle =
-        'rgba(0,255,240,0.08)';
-
-    for(let i=0;i<=size;i+=80){
-
-        ctx.beginPath();
-
-        ctx.moveTo(i,0);
-        ctx.lineTo(i,size);
-
-        ctx.stroke();
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(0,i);
-        ctx.lineTo(size,i);
-
-        ctx.stroke();
-    }
-
-
-
-    const points =
-        this.shotHistory.map(p=>({
-
-            x:p.x*size,
-            y:p.y*size,
-            hit:p.hit
-
-        }));
-
-
-
-    // 轨迹线
-
-    ctx.beginPath();
-
-    ctx.lineWidth=3;
-
-    ctx.strokeStyle='#00fff0';
-
-
-    points.forEach((p,i)=>{
-
-        if(i===0){
-
-            ctx.moveTo(
-                p.x,
-                p.y
-            );
-
-        }else{
-
-            ctx.lineTo(
-                p.x,
-                p.y
-            );
-        }
-
-    });
-
-
-    ctx.stroke();
-
-
-
-    // 点
-
-    points.forEach(p=>{
-
-        ctx.beginPath();
-
-        ctx.arc(
-            p.x,
-            p.y,
-            5,
-            0,
-            Math.PI*2
-        );
-
-
-        ctx.fillStyle =
-            p.hit
-            ? '#00ff88'
-            : '#ff3366';
-
-
-        ctx.fill();
-
-    });
-
-
-
-    // 导出图片
-
-    const img =
-        canvas.toDataURL(
-            "image/png"
-        );
-
-
-    console.log(
-        "Aim trace:",
-        img
-    );
-
-
-    // 保存到本地
-
-   // 保存图片数据
-
-this.lastTraceImage =
-canvas.toDataURL("image/png");
-);
-
-}
-   
     destroy() {
         this.state = 'idle';
         this._stopLoop();
@@ -1263,3 +1103,4 @@ canvas.toDataURL("image/png");
         document.removeEventListener('pointerlockchange', this._onPointerLockChange);
     }
 }
+
