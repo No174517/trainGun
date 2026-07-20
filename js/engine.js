@@ -1103,4 +1103,3 @@ export class GameEngine {
         document.removeEventListener('pointerlockchange', this._onPointerLockChange);
     }
 }
-
