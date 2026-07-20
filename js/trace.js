@@ -18,6 +18,11 @@ export class AimTrace {
         });
     }
 
+    getData(){
+
+        return [...this.points];
+
+    }
 
     draw(){
 
