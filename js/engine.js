@@ -658,6 +658,8 @@ export class GameEngine {
         this.elapsed = 0;
         this.shake = 0; // 屏幕震动强度
         this.shotHistory = [];
+        this.traceHistory = [];
+        this.traceHistory = [];
         this.trackingFrames = 0;
         this.trackingHitFrames = 0;
         this.targets = [];
@@ -1086,7 +1088,8 @@ export class GameEngine {
 
         saveTrainingResult(result);
         this.generateAimTraceImage();
-        const bestScores = getBestScores();
+       showResult(result) 
+       const bestScores = getBestScores();
         const previousBest = bestScores[this.mode];
         const isNewRecord = !previousBest || this.score >= previousBest.score;
 
@@ -1102,10 +1105,11 @@ export class GameEngine {
 
 generateAimTraceImage() {
 
-    if (!this.shotHistory || this.shotHistory.length < 2) {
+    if (!this.traceHistory || this.traceHistory.length < 2) {
         return;
     }
-
+    
+    const points = this.traceHistory;
 
     const canvas = document.createElement('canvas');
 
