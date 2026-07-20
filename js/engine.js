@@ -1092,7 +1092,13 @@ export class GameEngine {
             headshots: this.headshots,
             shotHistory: this.shotHistory,
             traceHistory: aimTrace.getData()
-        };
+           
+           traceSize:{
+              width:this.canvas.width,
+              height:this.canvas.height
+           }
+
+           };
 
         console.log(result.traceHistory);
         saveTrainingResult(result);
